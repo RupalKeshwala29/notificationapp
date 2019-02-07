@@ -34,12 +34,6 @@
         android:layout_height="40dp"
         android:id="@+id/editTextName" />
 
-    <TextView
-        android:textColor="#FFFF"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username" />
 
     <TextView
         android:textColor="#FFFF"
@@ -76,6 +70,15 @@
         android:layout_height="40dp"
         android:inputType="textEmailAddress"
         android:id="@+id/editTextEmail" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Pick group"
+        android:id="@+id/spinnerPickGroup">
+
+    </Spinner>
+
 
     <Button
         android:layout_width="200dp"
