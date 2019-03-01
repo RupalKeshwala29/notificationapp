@@ -91,11 +91,11 @@ public class RegisterUserClass {
         return sb.toString();
     }
 
-    //Gets data from Diary using Date and Username
-    public String sendGetRequestParam(String requestURL, String date, String username){
+    //Gets data from Diary using Date and email
+    public String sendGetRequestParam(String requestURL, String email){
         StringBuilder sb =new StringBuilder();
         try {
-            URL url = new URL(requestURL+date+"&username="+username.trim());
+            URL url = new URL(requestURL+email.trim());
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 

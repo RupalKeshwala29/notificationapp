@@ -13,13 +13,13 @@
         android:theme="@style/AppTheme">
 
 
-        <activity android:name=".EventActivity" />
-        <activity android:name=".GroupActivity" />
         <activity android:name=".ModifyUserActivity" />
+        <activity android:name=".GroupActivity" />
+        <activity android:name=".ListView" />
         <activity android:name=".AddUserActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AdminLandingPage"/>
-        <activity android:name=".ListView" >
+        <activity android:name=".EventActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
