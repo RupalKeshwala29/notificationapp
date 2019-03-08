@@ -31,6 +31,11 @@
         android:text="@string/button_remove_user"
         android:id="@+id/buttonRemoveUser" />
 
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/EditTextPickGroup"/>
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

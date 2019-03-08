@@ -10,30 +10,41 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class ModifyUserActivity extends AppCompatActivity implements View.OnClickListener{
+public class ModifyUserActivity extends AppCompatActivity{
 
    private static final String URL_DELETE = "https://usiuflyers.000webhostapp.com/deleteuser.php?email=";
-    private EditText editTextEmail;
-    private Button buttonRemoveUser;
+    private EditText editTextEmail, EditTextPickGroup;
+    private Button buttonRemoveUser, buttonModifyUser;
+    private Spinner PickGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_user);
         buttonRemoveUser=(Button) findViewById(R.id.buttonRemoveUser);
+        buttonModifyUser=(Button) findViewById(R.id.buttonModifyUser);
         editTextEmail=(EditText)findViewById(R.id.editTextEmail);
+        EditTextPickGroup=(EditText)findViewById(R.id.EditTextPickGroup);
 
-        buttonRemoveUser.setOnClickListener(this);
+        buttonRemoveUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmDeleteEntry();
+            }
+        });
+
+        buttonModifyUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //confirmUpdateEntry();
+            }
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v == buttonRemoveUser){
-            confirmDeleteEntry();
-        }
-    }
+
 
     private void deleteEntry(){
         final String email=editTextEmail.getText().toString().trim().toLowerCase();
