@@ -13,10 +13,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class ModifyUserActivity extends AppCompatActivity{
 
    private static final String URL_DELETE = "https://usiuflyers.000webhostapp.com/deleteuser.php?email=";
-    private EditText editTextEmail, EditTextPickGroup;
+    private static final String UPDATE_USER_URL = "https://usiuflyers.000webhostapp.com/update.php";
+    private EditText editTextEmail, editTextUsergroup, editTextName, editTextPassword;
     private Button buttonRemoveUser, buttonModifyUser;
     private Spinner PickGroup;
 
@@ -27,8 +30,9 @@ public class ModifyUserActivity extends AppCompatActivity{
         buttonRemoveUser=(Button) findViewById(R.id.buttonRemoveUser);
         buttonModifyUser=(Button) findViewById(R.id.buttonModifyUser);
         editTextEmail=(EditText)findViewById(R.id.editTextEmail);
-        EditTextPickGroup=(EditText)findViewById(R.id.EditTextPickGroup);
-
+        editTextUsergroup=(EditText)findViewById(R.id.editTextUsergroup);
+        editTextName=(EditText)findViewById(R.id.editTextName);
+        editTextPassword=(EditText)findViewById(R.id.editTextPassword);
         buttonRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +43,7 @@ public class ModifyUserActivity extends AppCompatActivity{
         buttonModifyUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //confirmUpdateEntry();
+                confirmUpdateEntry();
             }
         });
     }
@@ -116,5 +120,80 @@ public class ModifyUserActivity extends AppCompatActivity{
         //intent.putExtra("username",username);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         finish();
+    }
+
+    private void updateuserentries() {
+        String name = editTextName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+        String usergroup =editTextUsergroup.getText().toString().trim();
+        //spinnerPickGroup.getSelectedItem().toString().trim();
+        UpdateUser(name,email,usergroup,password);
+
+    }
+
+    private void UpdateUser(String name,String email, String usergroup, String password) {
+        class UpdateUserClass extends AsyncTask<String, Void, String> {
+            ProgressDialog loading;
+            RegisterUserClass ruc = new RegisterUserClass();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                loading = ProgressDialog.show(ModifyUserActivity.this, "Updating entry", null, true, true);
+
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                loading.dismiss();
+                if (s.equals("")){
+                    Toast.makeText(ModifyUserActivity.this,"Check your Network connection", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(ModifyUserActivity.this,s, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(String... params) {
+                HashMap<String, String> data = new HashMap<>();
+                data.put("name", params[0]);
+                data.put("email", params[1]);
+                data.put("usergroup",params[2]);
+                data.put("password",params[3]);
+
+                String result = ruc.sendPostRequest(UPDATE_USER_URL, data);
+
+                return result;
+            }
+        }
+        UpdateUserClass dc = new UpdateUserClass();
+        dc.execute(name,email,usergroup,password);
+    }
+
+    private void confirmUpdateEntry(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure you want to update this entry?");
+
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        updateuserentries();
+
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }

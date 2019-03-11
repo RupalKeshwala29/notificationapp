@@ -12,7 +12,7 @@
         android:textColor="#000"
         android:textSize="20sp"
         android:gravity="center"
-        android:hint="Enter Email to remove"
+        android:hint="Enter Email to remove / update"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/editTextEmail" />
@@ -33,9 +33,36 @@
 
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/EditTextPickGroup"/>
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="Enter Group to update"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/editTextUsergroup"/>
+
+
+    <EditText
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="Enter Name to update"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/editTextName" />
+
+    <EditText
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:hint="Enter Password to update"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/editTextPassword" />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
