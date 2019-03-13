@@ -71,6 +71,24 @@
         android:inputType="textEmailAddress"
         android:id="@+id/editTextEmail" />
 
+    <TextView
+        android:textColor="#FFFF"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Group" />
+
+    <EditText
+        android:background="@drawable/rounded_edittext"
+        android:textColor="#000"
+        android:hint="Enter User Group"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:inputType="textEmailAddress"
+        android:id="@+id/editTextUsergroup" />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

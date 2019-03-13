@@ -15,8 +15,8 @@ import java.util.HashMap;
 
 public class AddUserActivity extends AppCompatActivity {
     private static final String USER_URL = "https://usiuflyers.000webhostapp.com/users.php";
-    EditText editTextName, editTextEmail, editTextPassword;
-    Spinner spinnerPickGroup;
+    EditText editTextName, editTextEmail, editTextPassword, editTextUsergroup;
+    //Spinner spinnerPickGroup;
     Button buttonRegister, buttonLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,8 @@ public class AddUserActivity extends AppCompatActivity {
         editTextName=(EditText)findViewById(R.id.editTextName);
         editTextEmail=(EditText)findViewById(R.id.editTextEmail);
         editTextPassword=(EditText)findViewById(R.id.editTextPassword);
-        spinnerPickGroup=(Spinner)findViewById(R.id.spinnerPickGroup);
+        editTextUsergroup=(EditText)findViewById(R.id.editTextUsergroup);
+        //spinnerPickGroup=(Spinner)findViewById(R.id.spinnerPickGroup);
         buttonRegister=(Button)findViewById(R.id.buttonRegister);
         buttonLogin=(Button)findViewById(R.id.buttonLogin);
 
@@ -51,7 +52,7 @@ public class AddUserActivity extends AppCompatActivity {
         String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        String usergroup ="abc";
+        String usergroup =editTextUsergroup.getText().toString().trim();
                 //spinnerPickGroup.getSelectedItem().toString().trim();
         User(name,email,usergroup,password);
     }
