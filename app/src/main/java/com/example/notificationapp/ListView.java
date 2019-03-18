@@ -1,10 +1,21 @@
 package com.example.notificationapp;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -15,7 +26,13 @@ import java.net.URL;
 
 public class ListView extends AppCompatActivity {
 
-    String urladdress="https://usiuflyers.000webhostapp.com/displayevents.php";
+    public static final String DATA_URL = "https://usiuflyers.000webhostapp.com/select.php?email=";
+    public static final String KEY_GROUPVALUE = "usergroup";
+
+    public static final String JSON_ARRAY = "result";
+    //public static  String usergroup = "";
+
+    String urladdress="https://usiuflyers.000webhostapp.com/displayevents.php?usergroup=";
     String[] name;
     String[] venue;
     String[] date;
@@ -25,11 +42,20 @@ public class ListView extends AppCompatActivity {
     BufferedInputStream is;
     String line=null;
     String result=null;
+    EditText ETgroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
         listView=(android.widget.ListView)findViewById(R.id.lview);
+        ETgroup=(EditText)findViewById(R.id.ETgroup);
+
+        String email="user2@usiu.ac.ke";
+        //String email=getIntent().getStringExtra("email");
+
+        Toast.makeText(this,"Welcome "+email,Toast.LENGTH_LONG).show();
+
+        getData();
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
         collectData();
@@ -41,8 +67,8 @@ public class ListView extends AppCompatActivity {
     {
 //Connection
         try{
-
-            URL url=new URL(urladdress);
+String usergroup=ETgroup.getText().toString();
+            URL url=new URL(urladdress+usergroup);
             HttpURLConnection con=(HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
             is=new BufferedInputStream(con.getInputStream());
@@ -96,4 +122,58 @@ public class ListView extends AppCompatActivity {
 
 
     }
+
+    private ProgressDialog loading;
+
+    private void getData() {
+        //String email=getIntent().getStringExtra("email").trim();
+        String email="user2@usiu.ac.ke".toString().trim();
+
+
+        if (email.equals("")) {
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+            return;
+        }
+        loading = ProgressDialog.show(this,"Please wait...","Fetching...",false,false);
+
+        String url = DATA_URL+email.trim();
+
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                loading.dismiss();
+                showJSON(response);
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ListView.this,error.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void showJSON(String response){
+        String usergroup="";
+
+
+        try {
+
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray result = jsonObject.getJSONArray(JSON_ARRAY);
+            JSONObject collegeData = result.getJSONObject(0);
+            usergroup = collegeData.getString(KEY_GROUPVALUE);
+ETgroup.setText(usergroup);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this,usergroup,Toast.LENGTH_LONG).show();
+    }
+
 }
