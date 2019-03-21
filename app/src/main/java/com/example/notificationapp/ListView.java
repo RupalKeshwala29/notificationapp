@@ -1,7 +1,9 @@
 package com.example.notificationapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +32,7 @@ public class ListView extends AppCompatActivity {
     public static final String KEY_GROUPVALUE = "usergroup";
 
     public static final String JSON_ARRAY = "result";
-    //public static  String usergroup = "";
+    //public static  String usergroup;
 
     String urladdress="https://usiuflyers.000webhostapp.com/displayevents.php?usergroup=";
     String[] name;
@@ -50,12 +52,15 @@ public class ListView extends AppCompatActivity {
         listView=(android.widget.ListView)findViewById(R.id.lview);
         ETgroup=(EditText)findViewById(R.id.ETgroup);
 
-        String email="user2@usiu.ac.ke";
-        //String email=getIntent().getStringExtra("email");
+        //String email="user2@usiu.ac.ke";
+        String email=getIntent().getStringExtra("email");
 
         Toast.makeText(this,"Welcome "+email,Toast.LENGTH_LONG).show();
 
         getData();
+        //SharedPreferences prefs = getSharedPreferences("groupinfo", Context.MODE_PRIVATE);
+        //String usergroup=prefs.getString("usergroup","");
+        //ETgroup.setText(usergroup);
 
         StrictMode.setThreadPolicy((new StrictMode.ThreadPolicy.Builder().permitNetwork().build()));
         collectData();
@@ -67,7 +72,9 @@ public class ListView extends AppCompatActivity {
     {
 //Connection
         try{
-String usergroup=ETgroup.getText().toString();
+
+            //SharedPreferences prefs = getSharedPreferences("groupinfo", Context.MODE_PRIVATE);
+            //String usergroup=prefs.getString("usergroup","");
             URL url=new URL(urladdress+usergroup);
             HttpURLConnection con=(HttpURLConnection)url.openConnection();
             con.setRequestMethod("GET");
@@ -126,8 +133,8 @@ String usergroup=ETgroup.getText().toString();
     private ProgressDialog loading;
 
     private void getData() {
-        //String email=getIntent().getStringExtra("email").trim();
-        String email="user2@usiu.ac.ke".toString().trim();
+        String email=getIntent().getStringExtra("email").trim();
+        //String email="user2@usiu.ac.ke".toString().trim();
 
 
         if (email.equals("")) {
@@ -156,8 +163,9 @@ String usergroup=ETgroup.getText().toString();
         requestQueue.add(stringRequest);
     }
 
-    public void showJSON(String response){
-        String usergroup="";
+    private String usergroup;
+    public String showJSON(String response){
+
 
 
         try {
@@ -166,14 +174,25 @@ String usergroup=ETgroup.getText().toString();
             JSONArray result = jsonObject.getJSONArray(JSON_ARRAY);
             JSONObject collegeData = result.getJSONObject(0);
             usergroup = collegeData.getString(KEY_GROUPVALUE);
-ETgroup.setText(usergroup);
+
+
+           // collectData(usergroup);
+
+            //SharedPreferences prefs = getSharedPreferences("groupinfo", Context.MODE_PRIVATE);
+            //SharedPreferences.Editor editor=prefs.edit();
+            //editor.putString("usergroup",usergroup);
+            //editor.apply();
+
+
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Toast.makeText(this,usergroup,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,usergroup,Toast.LENGTH_LONG).show();
+        return this.usergroup;
     }
+
 
 }

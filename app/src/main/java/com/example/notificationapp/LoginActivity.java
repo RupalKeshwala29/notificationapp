@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editTextEmail.setText("");
                         editTextPassword.setText("");
                     }
-                }if(s.contains("Invalid Username or Password")){
+                }if(s.contains("Invalid Email or Password")){
                     Toast.makeText(LoginActivity.this,s, Toast.LENGTH_LONG).show();
                 }
                 if(s.equals("")){
